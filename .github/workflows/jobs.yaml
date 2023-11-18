@@ -18,10 +18,8 @@ jobs:
           docker buildx create \
             --name container \
             --driver=docker-container \
-            --buildkitd-flags '\
-              --allow-insecure-entitlement security.insecure \
-              --allow-insecure-entitlement network.host \
-            '
+            --buildkitd-flags '--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host'
+          docker buildx inspect --bootstrap --builder container
           docker buildx build \
             -t ${IMAGE_TAG} \
             -f ./Dockerfile . \
@@ -32,4 +30,5 @@ jobs:
           docker image ls
           echo "Running Docker image ${IMAGE_TAG}"
           docker run --init --rm "${IMAGE_TAG}"
+          docker buildx rm container
 # dummy1
