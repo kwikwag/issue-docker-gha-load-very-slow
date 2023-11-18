@@ -166,4 +166,4 @@ jobs:
           docker image ls
           echo "Running Docker image ${IMAGE_TAG}"
           docker run --init --rm "${IMAGE_TAG}"
-# dummy1
+# dummy
