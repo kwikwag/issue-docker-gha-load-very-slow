@@ -18,9 +18,10 @@ jobs:
           docker buildx create \
             --name container \
             --driver=docker-container \
-            --buildkitd-flags \
+            --buildkitd-flags '\
               --allow-insecure-entitlement security.insecure \
-              --allow-insecure-entitlement network.host
+              --allow-insecure-entitlement network.host \
+            '
           docker buildx build \
             -t ${IMAGE_TAG} \
             -f ./Dockerfile . \
