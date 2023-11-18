@@ -131,8 +131,8 @@ jobs:
           context: .
           file: ./Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=registry,ref=ghcr.io/${{ steps.meta.outputs.tags }}
-          cache-to: type=registry,ref=ghcr.io/${{ steps.meta.outputs.tags }},mode=max
+          cache-from: type=registry,ref=${{ steps.meta.outputs.tags }}-cache
+          cache-to: type=registry,ref=${{ steps.meta.outputs.tags }}-cache
       - name: Run Docker image
         id: docker-run
         shell: bash
