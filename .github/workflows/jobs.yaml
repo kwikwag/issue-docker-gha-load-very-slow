@@ -19,7 +19,8 @@ jobs:
         run: |
           docker buildx build -t ${IMAGE_TAG} -f ./Dockerfile . \
             --cache-from=gha \
-            --cache-to=type=gha,mode=max
+            --cache-to=type=gha,mode=max \
+            --load
           docker image ls
           echo "Running Docker image ${IMAGE_TAG}"
           docker run --init --rm "${IMAGE_TAG}"
