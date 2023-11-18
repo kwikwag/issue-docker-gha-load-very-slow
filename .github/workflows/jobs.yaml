@@ -1,35 +1,35 @@
 name: Build Image and Test
 on:
   push:
-env:
-  IMAGE_TAG: issue-docker-gha-load-very-slow:${{github.sha}}
 jobs:
-  ExplicitDockerBuildxCommandWithCache:
+  UseGhcrAndCache:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Expose GitHub Runtime
-        uses: crazy-max/ghaction-github-runtime@v3  
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: ${{github.sha}}
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          context: .
+          file: ./Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max          
       - name: Run Docker image
         id: docker-run
         shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_TAG: ${{ steps.meta.outputs.tags }}
         run: |
-          docker buildx create \
-            --name container \
-            --driver=docker-container \
-            --buildkitd-flags '--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host'
-          docker buildx inspect --bootstrap --builder container
-          docker buildx build \
-            --tag ${IMAGE_TAG} \
-            --file ./Dockerfile . \
-            --builder=container \
-            --cache-from=gha \
-            --cache-to=type=gha,mode=max \
-            --load
-          docker image ls
           echo "Running Docker image ${IMAGE_TAG}"
           docker run --init --rm "${IMAGE_TAG}"
           docker buildx rm container
