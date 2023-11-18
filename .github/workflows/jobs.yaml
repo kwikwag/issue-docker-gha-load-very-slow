@@ -15,8 +15,12 @@ jobs:
         id: docker-run
         shell: bash
         run: |
-          docker buildx create --name container --driver=docker-container
-          echo "GHA actions cache URL: ${ACTIONS_CACHE_URL}"
+          docker buildx create \
+            --name container \
+            --driver=docker-container \
+            --buildkitd-flags \
+              --allow-insecure-entitlement security.insecure \
+              --allow-insecure-entitlement network.host
           docker buildx build \
             -t ${IMAGE_TAG} \
             -f ./Dockerfile . \
