@@ -17,7 +17,6 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
-          outputs: type=image,push=false
           context: .
           file: ./Dockerfile
           tags: ${{env.IMAGE_TAG}}
