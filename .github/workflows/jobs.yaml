@@ -7,6 +7,8 @@ jobs:
   ActionWithCache:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build Docker image
@@ -29,6 +31,8 @@ jobs:
   ActionWithoutCache:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build Docker image
@@ -49,6 +53,8 @@ jobs:
   ExplicitDockerBuildxCommand:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Run Docker image
         id: docker-run
         shell: bash
