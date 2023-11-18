@@ -24,8 +24,8 @@ jobs:
             -t ${IMAGE_TAG} \
             -f ./Dockerfile . \
             --builder=container \
-            --cache-from=gha \
-            --cache-to=type=gha,mode=max \
+            --cache-from=gha,url=${ACTIONS_CACHE_URL},token=${ACTIONS_RUNTIME_TOKEN} \
+            --cache-to=type=gha,url=${ACTIONS_CACHE_URL},token=${ACTIONS_RUNTIME_TOKEN},mode=max \
             --load
           docker image ls
           echo "Running Docker image ${IMAGE_TAG}"
