@@ -4,30 +4,30 @@ on:
 env:
   IMAGE_TAG: issue-docker-gha-load-very-slow:latest
 jobs:
-  # ActionWithCache:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v3
-  #     - name: Build Docker image
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         push: false
-  #         load: true
-  #         context: .
-  #         file: ./Dockerfile
-  #         tags: ${{env.IMAGE_TAG}}
-  #         cache-from: type=gha
-  #         cache-to: type=gha,mode=max
-  #     - name: Run Docker image
-  #       id: docker-run
-  #       shell: bash
-  #       run: |
-  #         docker image ls
-  #         echo "Running Docker image ${IMAGE_TAG}"
-  #         docker run --init --rm "${IMAGE_TAG}"
+  ActionWithCache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          load: true
+          context: .
+          file: ./Dockerfile
+          tags: ${{env.IMAGE_TAG}}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Run Docker image
+        id: docker-run
+        shell: bash
+        run: |
+          docker image ls
+          echo "Running Docker image ${IMAGE_TAG}"
+          docker run --init --rm "${IMAGE_TAG}"
   # ActionWithoutCache:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -141,29 +141,29 @@ jobs:
   #       run: |
   #         echo "Running Docker image ${IMAGE_TAG2}"
   #         docker run --init --rm "${IMAGE_TAG2}"
-  UseDoubleCache:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Build Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          tags: ${{env.IMAGE_TAG}}
-          load: true
-          cache-from: type=gha
-          cache-to: |
-            type=gha,mode=max
-            type=inline
-      - name: Run Docker image
-        id: docker-run
-        shell: bash
-        run: |
-          docker image ls
-          echo "Running Docker image ${IMAGE_TAG}"
-          docker run --init --rm "${IMAGE_TAG}"
+  # UseDoubleCache:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
+  #     - name: Build Docker image
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         file: ./Dockerfile
+  #         tags: ${{env.IMAGE_TAG}}
+  #         load: true
+  #         cache-from: type=gha
+  #         cache-to: |
+  #           type=gha,mode=max
+  #           type=inline
+  #     - name: Run Docker image
+  #       id: docker-run
+  #       shell: bash
+  #       run: |
+  #         docker image ls
+  #         echo "Running Docker image ${IMAGE_TAG}"
+  #         docker run --init --rm "${IMAGE_TAG}"
 # dummy
