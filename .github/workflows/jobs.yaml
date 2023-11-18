@@ -41,5 +41,4 @@ jobs:
         run: |
           echo "Running Docker image ${IMAGE_TAG}"
           docker run --init --rm "${IMAGE_TAG}"
-          docker buildx rm container
 # dummy1
