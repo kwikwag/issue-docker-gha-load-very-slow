@@ -2,7 +2,7 @@ name: Build Image and Test
 on:
   push:
 env:
-  IMAGE_TAG: ${{github.repository}}:latest
+  IMAGE_TAG: issue-docker-gha-load-very-slow:latest
 jobs:
   UseDoubleCache:
     runs-on: ubuntu-latest
@@ -29,6 +29,7 @@ jobs:
         id: docker-run
         shell: bash
         run: |
+          docker image ls
           echo "Running Docker image ${IMAGE_TAG}"
           docker run --init --rm "${IMAGE_TAG}"
 # dummy1
